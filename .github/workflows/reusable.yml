@@ -8,11 +8,20 @@ on:
   workflow_call:
     # Inputs the workflow accepts.
     inputs:
-      name:
+      tag:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
+        description: 'tag'
         # Default value if no value is explicitly provided
-        default: 'World'
+        default: 'tag'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+      tagevent:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'tagevent'
+        # Default value if no value is explicitly provided
+        default: 'tagevent'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -30,3 +39,7 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       run: echo "Hello ${{ inputs.name }}"
+    - name: Checkout github tag
+      uses: actions/checkout@v4
+      with:
+        ref: tag
