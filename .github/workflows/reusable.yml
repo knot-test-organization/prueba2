@@ -37,8 +37,6 @@ jobs:
         fetch-tags: true
         path: database-repo
     - name: ls database 1
-      run: ls /home/runner/work/knotclienttest0509/knotclienttest0509
-    - name: ls database 1
       run: ls $GITHUB_WORKSPACE
     - name: ls database 1
       run: ls $GITHUB_WORKSPACE/database-repo
