@@ -37,9 +37,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
-    - name: Checkout github tag
+    - name: hello database 1
+      run: echo "Hello ${{ inputs.tag }}"
+    - name: Checkout github tag database
       uses: actions/checkout@v4
       with:
         ref: tag
+    - name: hello database 2
+      run: echo "Hello ${{ inputs.tagevent }}"
