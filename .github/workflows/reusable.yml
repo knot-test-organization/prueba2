@@ -28,10 +28,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: hello database 1
-      run: echo "Hello ${{ inputs.tag }}"
+    - name: Tag database 1
+      run: echo "Tag ${{ inputs.tag }}"
     - name: Checkout github tag database
       uses: actions/checkout@v4
       with:
         ref: ${{ inputs.tag }}
         fetch-tags: true
+    - name: ls database 1
+      run: ls /home/runner/work/knotclienttest0509/knotclienttest0509
+
