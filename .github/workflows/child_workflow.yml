@@ -12,20 +12,14 @@ on:
 jobs:
   create-automerge-label:
     runs-on: ubuntu-latest
-    steps:
-      - name: echo
-        run: |
-          echo ${{ github.event.number }}  
+    steps: 
       - name: Add Label
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: automerge
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
 
   create-repository-dispatch:
+    needs: create-automerge-label
     runs-on: ubuntu-latest
 
     strategy:
@@ -39,5 +33,4 @@ jobs:
           token: ${{ secrets.OWNER_TOKEN }}
           repository: ${{ matrix.repo }}
           event-type: approve-event
-          # client-payload: '{"event": ${{ toJson(github.event) }}}'
           client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
