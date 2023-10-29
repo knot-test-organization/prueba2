@@ -36,7 +36,7 @@ jobs:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.ACTIONS_TOKEN }}
+          token: ${{ secrets.OWNER_TOKEN }}
           repository: ${{ matrix.repo }}
           event-type: approve-event
           # client-payload: '{"event": ${{ toJson(github.event) }}}'
