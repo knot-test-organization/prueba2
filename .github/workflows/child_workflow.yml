@@ -1,14 +1,43 @@
-name: 'Workflow of Child REPO'
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labeler
 
+name: Auto-label Job
 on:
-  workflow_dispatch:
+  pull_request_target
 
-jobs: 
-  trigger_workflow:
+jobs:
+  create-automerge-label:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Workflow name
-        shell: bash
+      - name: echo
         run: |
-          echo "I am Workflow of Child REPO"
-          sleep 120s
+          echo ${{ github.event.number }}  
+      - name: Add Label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: automerge
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  create-repository-dispatch:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        repo: ['knot-test-organization/prueba']
+
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ matrix.repo }}
+          event-type: approve-event
+          # client-payload: '{"event": ${{ toJson(github.event) }}}'
+          client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
