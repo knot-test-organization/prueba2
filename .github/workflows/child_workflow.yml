@@ -11,7 +11,7 @@ on:
     types: [labeled]
 
 jobs:
-  create-automerge-label:
+  verify-automerge-label:
     runs-on: ubuntu-latest
     steps: 
       - uses: mheap/github-action-required-labels@v5
@@ -34,7 +34,7 @@ jobs:
 
 
   merge:
-    needs: create-automerge-label
+    needs: verify-automerge-label
     runs-on: ubuntu-latest
 
     steps:
