@@ -17,20 +17,28 @@ jobs:
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: automerge
-
-  create-repository-dispatch:
-    needs: create-automerge-label
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        repo: ['knot-test-organization/prueba']
-
-    steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.OWNER_TOKEN }}
-          repository: ${{ matrix.repo }}
+          repository: knot-test-organization/prueba
           event-type: approve-event
           client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
+
+
+  # create-repository-dispatch:
+  #   needs: create-automerge-label
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       repo: ['knot-test-organization/prueba']
+
+  #   steps:
+  #     - name: Repository Dispatch
+  #       uses: peter-evans/repository-dispatch@v2
+  #       with:
+  #         token: ${{ secrets.OWNER_TOKEN }}
+  #         repository: ${{ matrix.repo }}
+  #         event-type: approve-event
+  #         client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
