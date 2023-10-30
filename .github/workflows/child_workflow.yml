@@ -24,28 +24,32 @@ jobs:
       #   uses: actions-ecosystem/action-add-labels@v1
       #   with:
       #     labels: automerge
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+      # - name: Repository Dispatch
+      #   uses: peter-evans/repository-dispatch@v2
+      #   with:
+      #     token: ${{ secrets.OWNER_TOKEN }}
+      #     repository: knot-test-organization/prueba
+      #     event-type: approve-event
+      #     client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
+
+
+  merge:
+    needs: create-automerge-label
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Merge pull request"
+        uses: "actions/github-script@v6"
         with:
-          token: ${{ secrets.OWNER_TOKEN }}
-          repository: knot-test-organization/prueba
-          event-type: approve-event
-          client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
+          github-token: "${{ secrets.OWNER_TOKEN }}"
+          script: |
+            const pullRequest = ${{ github.event.client_payload.pull_number }}
+            const owner = "${{ github.event.client_payload.owner }}"
+            const repository = "${{ github.event.client_payload.repository }}"
 
-
-  # create-repository-dispatch:
-  #   needs: create-automerge-label
-  #   runs-on: ubuntu-latest
-
-  #   strategy:
-  #     matrix:
-  #       repo: ['knot-test-organization/prueba']
-
-  #   steps:
-  #     - name: Repository Dispatch
-  #       uses: peter-evans/repository-dispatch@v2
-  #       with:
-  #         token: ${{ secrets.OWNER_TOKEN }}
-  #         repository: ${{ matrix.repo }}
-  #         event-type: approve-event
-  #         client-payload: '{"repository": "${{ github.event.repository.name }}", "owner": "${{ github.event.repository.owner.login }}",  "pull_number": ${{ github.event.number }}}'
+            await github.rest.pulls.merge({
+              merge_method: "merge",
+              owner: owner,
+              pull_number: pullRequest,
+              repo: repository,
+            })
