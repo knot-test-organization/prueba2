@@ -13,6 +13,12 @@ jobs:
   create-automerge-label:
     runs-on: ubuntu-latest
     steps: 
+      - uses: mheap/github-action-required-labels@v5
+        with:
+          mode: exactly
+          count: 1
+          labels: "automerge"
+          exit_type: failure
       - name: Add Label
         uses: actions-ecosystem/action-add-labels@v1
         with:
