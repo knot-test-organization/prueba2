@@ -41,7 +41,7 @@ jobs:
       - name: "Merge pull request"
         uses: "actions/github-script@v6"
         with:
-          github-token: "${{ secrets.OWNER_TOKEN }}"
+          # github-token: "${{ secrets.OWNER_TOKEN }}"
           script: |
             const pullRequest = ${{ github.event.number }}
             const owner = "${{ github.event.repository.owner.login }}"
