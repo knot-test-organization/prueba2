@@ -20,10 +20,10 @@ jobs:
           count: 1
           labels: "automerge"
           exit_type: failure
-      - name: Add Label
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: automerge
+      # - name: Add Label
+      #   uses: actions-ecosystem/action-add-labels@v1
+      #   with:
+      #     labels: automerge
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
