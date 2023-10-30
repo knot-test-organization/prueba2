@@ -43,9 +43,9 @@ jobs:
         with:
           github-token: "${{ secrets.OWNER_TOKEN }}"
           script: |
-            const pullRequest = ${{ github.event.client_payload.pull_number }}
-            const owner = "${{ github.event.client_payload.owner }}"
-            const repository = "${{ github.event.client_payload.repository }}"
+            const pullRequest = ${{ github.event.number }}
+            const owner = "${{ github.event.repository.owner.login }}"
+            const repository = "${{ github.event.repository.name }}"
 
             await github.rest.pulls.merge({
               merge_method: "merge",
